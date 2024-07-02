@@ -65,6 +65,7 @@ def on_message(client, userdata, msg):
     if name == "direction":
         # if value == "go" and not my_robot._go:
         if value == "rotation_done":
+            print("Rotation done")
             client_mqtt.disconnect()
             my_robot.go_straight()
             time.sleep(2.5)
@@ -72,28 +73,39 @@ def on_message(client, userdata, msg):
             # my_robot.set_speeds(BASE_SPEED, BASE_SPEED)
             # my_robot._go = True
             print("Velocità base")
-
-            # print("Velocità base")
         # elif value == "cross" and my_robot._go:
-        elif value == "go":
+        elif value == "go" or "front":
+            print("go")
             my_robot.go_straight()
         elif value == "cross":
-            print("Stop")
+            print("CROSS")
             my_robot.set_speeds(0, 0)
         elif value == "turn_left":
+            print("turn_left")
             my_robot.turn_left(TURN_SPEED)
         elif value == "turn_left_slow":
+            print("turn_left_slow")
             my_robot.turn_left(SLOW_TURN_SPEED)
         elif value == "turn_left_more_slow":
+            print("turn_left_more_slow")
             my_robot.turn_left(MORE_SLOW_TURN_SPEED)
         elif value == "turn_right":
+            print("turn_right")
             my_robot.turn_right(TURN_SPEED)
         elif value == "turn_right_slow":
+            print("turn_right_slow")
             my_robot.turn_right(SLOW_TURN_SPEED)
         elif value == "turn_right_more_slow":
+            print("turn_right_more_slow")
             my_robot.turn_right(MORE_SLOW_TURN_SPEED)
+        elif value == "stop":
+            print("Stop")
+            time.sleep(30)
+        else:
+            print("Invalid")
+            my_robot.set_speeds(0, 0)
 
-    # client.publish("action", value, my_robot._go)
+    client.publish("action", value, my_robot._go)
 
 
 def on_subscribe(client, userdata, mid, reason_code_list, properties):
